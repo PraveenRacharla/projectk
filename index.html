@@ -1,42 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Budget Dashboard 2026</title>
-  <style>
-    body {
-      font-family: Arial;
-      margin: 0;
-      background: #f5f5f5;
-    }
-
-    .container {
-      max-width: 420px;
-      margin: auto;
-      padding: 16px;
-    }
-
-    .card {
-      background: white;
-      padding: 16px;
-      border-radius: 12px;
-      margin-top: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 28px;
-    }
-
-    .big {
-      font-size: 32px;
-      font-weight: bold;
-      color: green;
-    }
-  </style>
-</head>
-
 <body>
   <div class="container">
 
@@ -44,23 +5,18 @@
 
     <div class="card">
       <p>Total Expenses</p>
-      <div class="big">12,400 NOK</div>
+      <div class="big" id="total">0 NOK</div>
     </div>
 
     <div class="card">
-      <p>Food</p>
-      <p>3,200 NOK</p>
-    </div>
-
-    <div class="card">
-      <p>Rent</p>
-      <p>8,000 NOK</p>
+      <canvas id="pieChart"></canvas>
     </div>
 
   </div>
+
+  <!-- Chart.js FIRST -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Then your script -->
+  <script src="script.js"></script>
 </body>
-</html>
-
-<script src="script.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
