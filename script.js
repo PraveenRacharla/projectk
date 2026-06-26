@@ -1,4 +1,6 @@
 // JavaScript file
+const API_URL = "https://projectk-zydp.onrender.com";
+
 async function loadExpenses() {
   const res = await fetch("https://projectk-zydp.onrender.com/expenses");
   const data = await res.json();
