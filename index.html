@@ -4,6 +4,17 @@
     <h2>💰 My Budget Dashboard</h2>
 
     <div class="card">
+      <h3>➕ Add Expense</h3>
+
+      <input id="date" type="date" />
+      <input id="category" type="text" placeholder="Category (Food, Rent...)" />
+      <input id="amount" type="number" placeholder="Amount" />
+      <input id="note" type="text" placeholder="Note" />
+
+      <button onclick="addExpense()">Add</button>
+    </div>
+
+    <div class="card">
       <p>Total Expenses</p>
       <div class="big" id="total">0 NOK</div>
     </div>
@@ -20,3 +31,23 @@
   <!-- Then your script -->
   <script src="script.js"></script>
 </body>
+
+<style>
+  input {
+    width: 100%;
+    padding: 8px;
+    margin: 6px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background: green;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin-top: 8px;
+  }
+</style>
