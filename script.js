@@ -1,6 +1,6 @@
 // JavaScript file
 async function loadExpenses() {
-  const res = await fetch("http://127.0.0.1:5000/expenses");
+  const res = await fetch("https://projectk-zydp.onrender.com/expenses");
   const data = await res.json();
 
   console.log(data);
