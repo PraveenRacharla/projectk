@@ -78,10 +78,15 @@
     document.getElementById("topCat").textContent = top || "—";
   }
 
+  function setDonutCenter(label, amount){
+    document.getElementById("donutTotal").innerHTML = fmt(amount) + " <small>NOK</small>";
+    document.querySelector(".donut-center-label").textContent = label || "Total";
+  }
+
   function renderPie(){
     var byCat = {};
     expenses.forEach(function(e){ byCat[e.category] = (byCat[e.category]||0) + e.amount; });
-    var labels = Object.keys(byCat);
+    var labels = Object.keys(byCat).sort(function(a,b){ return byCat[b]-byCat[a]; });
     var data = labels.map(function(l){ return byCat[l]; });
     var total = data.reduce(function(a,b){ return a+b; }, 0);
 
@@ -90,11 +95,12 @@
     if(labels.length === 0){
       emptyEl.style.display = "";
       boxEl.style.display = "none";
-      document.getElementById("pieLegend").innerHTML = "";
       return;
     }
     emptyEl.style.display = "none";
     boxEl.style.display = "";
+
+    setDonutCenter("Total", total);
 
     var ctx = document.getElementById("pieChart");
     if(pieChart) pieChart.destroy();
@@ -102,21 +108,52 @@
       type: "doughnut",
       data: {
         labels: labels,
-        datasets: [{ data: data, backgroundColor: labels.map(function(_,i){ return COLORS[i % COLORS.length]; }), borderColor: "#15181e", borderWidth: 3 }]
+        datasets: [{
+          data: data,
+          backgroundColor: labels.map(function(_,i){ return COLORS[i % COLORS.length]; }),
+          hoverBackgroundColor: labels.map(function(_,i){ return COLORS[i % COLORS.length]; }),
+          borderColor: "#15181e",
+          borderWidth: 3,
+          hoverOffset: 8
+        }]
       },
       options: {
-        responsive: true, maintainAspectRatio: false, cutout: "62%",
-        plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(ctx){
-          var pct = ((ctx.parsed / total) * 100).toFixed(0);
-          return ctx.label + ": " + fmt(ctx.parsed) + " NOK (" + pct + "%)";
-        } } } }
+        responsive: true, maintainAspectRatio: true, cutout: "68%",
+        animation: { animateRotate: true, duration: 600 },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(c){
+                var pct = ((c.parsed / total) * 100).toFixed(1);
+                return " " + fmt(c.parsed) + " NOK  ·  " + pct + "%";
+              }
+            }
+          }
+        },
+        onHover: function(evt, elements){
+          if(elements && elements.length){
+            var i = elements[0].index;
+            setDonutCenter(labels[i], data[i]);
+          } else {
+            setDonutCenter("Total", total);
+          }
+        }
       }
     });
 
-    var legend = document.getElementById("pieLegend");
-    legend.innerHTML = labels.map(function(l,i){
-      var pct = ((byCat[l]/total)*100).toFixed(0);
-      return '<div class="legend-item"><span class="dot" style="background:'+COLORS[i%COLORS.length]+'"></span>'+l+' · '+pct+'%</div>';
+    /* Category breakdown bars */
+    var breakdown = document.getElementById("catBreakdown");
+    breakdown.innerHTML = labels.map(function(l, i){
+      var pct = ((byCat[l]/total)*100);
+      var color = COLORS[i % COLORS.length];
+      return '<div class="cat-row">'+
+        '<span class="cat-swatch" style="background:'+color+'"></span>'+
+        '<span class="cat-name">'+l+'</span>'+
+        '<div class="cat-bar-wrap"><div class="cat-bar" style="width:'+pct.toFixed(1)+'%;background:'+color+'"></div></div>'+
+        '<span class="cat-pct">'+Math.round(pct)+'%</span>'+
+        '<span class="cat-amt">'+fmt(byCat[l])+' NOK</span>'+
+      '</div>';
     }).join("");
   }
 

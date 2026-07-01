@@ -36,10 +36,16 @@
     <div class="card">
       <h3>Spending by category</h3>
       <div id="pieEmpty" class="empty">Add an expense to see your breakdown</div>
-      <div class="chart-box" id="pieBox" style="display:none;">
-        <canvas id="pieChart" role="img" aria-label="Pie chart of spending by category"></canvas>
+      <div id="pieBox" style="display:none;">
+        <div class="donut-wrap">
+          <canvas id="pieChart" role="img" aria-label="Donut chart of spending by category"></canvas>
+          <div class="donut-center" id="donutCenter">
+            <div class="donut-center-label">Total</div>
+            <div class="donut-center-amount" id="donutTotal"></div>
+          </div>
+        </div>
+        <div class="cat-breakdown" id="catBreakdown"></div>
       </div>
-      <div class="legend" id="pieLegend"></div>
     </div>
   </div>
 
